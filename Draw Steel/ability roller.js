@@ -60,7 +60,9 @@ await Dialog.prompt({
     rejectClose: false
 })
 
-let roll = await new Roll(`2d10 + ${dialog.modifier}[mod] + ${dialog.edge.mod}[${dialog.edge.text}]`).roll({ async: true })
+const rollEdge = dialog.edge.mod ? `+ ${dialog.edge.mod}[${dialog.edge.text}]` : ""
+const rollMod = dialog.modifier != 0 ? `+ ${dialog.modifier}[mod]` : ""
+const roll = await new Roll(`2d10 ${rollMod} ${rollEdge}`).roll({ async: true })
 let tier = 1
 let text = ""
 
@@ -72,10 +74,10 @@ if (roll.total >= 12 && roll.total <= 16) {
 
 if (dialog.edge.edge && dialog.edge.text === "Bane") {
     tier = Math.max(tier - 1, 1)
-    text = `Bane Tier down in effect<hr/>`
+    text = `<div style=color:red>Bane Tier down in effect</div><hr/>`
 } else if (dialog.edge.edge) {
     tier = Math.min(tier + 1, 3)
-    text = `Edge Tier up in effect<hr/>`
+    text = `<div style=color:green>Edge Tier up in effect</div><hr/>`
 } else if (Math.abs(dialog.edge.mod) === 2) {
     text = `${dialog.edge.text} in effect<hr/>`
 }
