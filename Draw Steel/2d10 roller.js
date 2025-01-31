@@ -40,17 +40,15 @@ if (roll.total >= 12 && roll.total <= 16) {
 
 if (dialog.edge.edge && dialog.edge.text === "Bane") {
     tier = Math.max(tier - 1, 1)
-    text = `<div style=color:red>Bane Tier down in effect</div><hr/>`
+    text = `<div style=color:red>Bane Tier down in effect</div>`
 } else if (dialog.edge.edge) {
     tier = Math.min(tier + 1, 3)
-    text = `<div style=color:green>Edge Tier up in effect</div><hr/>`
-} else if (Math.abs(dialog.edge.mod) === 2) {
-    text = `${dialog.edge.text} in effect<hr/>`
+    text = `<div style=color:green>Edge Tier up in effect</div>`
 }
 
 ChatMessage.create({
     roll: roll,
-    content: `${await roll.render()}<br/><div style="text-align:center"><strong>Result Tier${tier}</strong><br/></div><hr/>${text}`,
+    content: `${await roll.render()}<br/><div style="text-align:center"><strong>Result Tier${tier}</strong><br/></div>${text}`,
     sound: CONFIG.sounds.dice,
     type: CONST.CHAT_MESSAGE_TYPES.ROLL
 })
